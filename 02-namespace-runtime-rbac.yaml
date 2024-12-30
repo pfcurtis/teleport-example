@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: runtime
+  namespace: wp
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: runtime
+  namespace: wp
+rules:
+- apiGroups: [""]
+  resources: ["pods","services"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: runtime
+  namespace: wp
+subjects:
+- kind: User
+  name: runtime
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: runtime
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: runtime
+  namespace: wp
+  annotations:
+    kubernetes.io/service-account.name: runtime
+type: kubernetes.io/service-account-token
+
