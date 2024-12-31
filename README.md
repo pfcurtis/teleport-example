@@ -18,8 +18,4 @@ oci://registry-1.docker.io/bitnamicharts/wordpress
 
 `kubectl apply -f 02-namespace-runtime-rbac.yaml`
 
-`kubectl view-serviceaccount-kubeconfig admin -n wp > kc`
-
-`chmod 0400 kc`
-
-`helm install wp oci://registry-1.docker.io/bitnamicharts/wordpress -n wp --kubeconfig kc`
+`helm install wp oci://registry-1.docker.io/bitnamicharts/wordpress -n wp --kube-as-user 'paul'`

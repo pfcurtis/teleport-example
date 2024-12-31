@@ -11,7 +11,7 @@ metadata:
   namespace: wp
 rules:
 - apiGroups: [""]
-  resources: ["pods","services","configmaps","persistentvolumeclaims","serviceaccounts"]
+  resources: ["pods","services","configmaps","persistentvolumeclaims","serviceaccounts","secrets"]
   verbs: ["*"]
 - apiGroups: ["networking.k8s.io"]
   resources: ["*"]
