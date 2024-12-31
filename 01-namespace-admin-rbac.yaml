@@ -35,12 +35,3 @@ roleRef:
   kind: Role
   name: wp-admin-role
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: wp-admin
-  namespace: wp
-  annotations:
-    kubernetes.io/service-account.name: wp-admin
-type: kubernetes.io/service-account-token
