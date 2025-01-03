@@ -3,7 +3,21 @@
 ### Cluster Creation
 This is a standard `kubeadm` installation on whichever platform is requested. In testing, we used **kind** clusters. The only required output from this installation is the cluster admin `kubeconfig` which is needed for initial namespace and role creation.
 
-In this README, the created **kind** cluster is named "kind-teleport".
+For `kubeadm` installation using Linode/Akamai:
+  1. sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+  2. curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  3. sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
+  4. echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  5. sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list
+  6. apt-get update && apt-get -y install kubeadm containerd kubelet kubectl
+
+Create the control plane node for the cluster using Cilium as the CNI (via `kubeadm` add-on):
+  1. kubeadm init --skip-phases=addon/kube-proxy
+  2. kubeadm join <..> (additional nodes, if needed)
+  3. At this point, use Helm to install Cilium either on the control node or the user's machine.
+
+    helm repo add cilium https://helm.cilium.io/
+    helm install cilium cilium/cilium --version 1.16.5 --namespace kube-system
 
 ### Application Stack
 Some assumptions:
